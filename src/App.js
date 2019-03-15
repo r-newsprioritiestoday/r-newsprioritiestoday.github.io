@@ -65,9 +65,9 @@ class App extends Component {
 
 
     return (
-      <div style={{width: '50%', margin: '0 auto'}}>
+      <div>
         <MuiPickersUtilsProvider utils={MomentUtils}>
-          <Typography variant="h2" gutterBottom>
+          <Typography variant="h2" gutterBottom align="center">
             NEWS PRIORITIES TODAY
           </Typography>
           <Grid container
@@ -80,6 +80,7 @@ class App extends Component {
                 onChange={(date) => this.setState({selectedDate: date})}
                 label="Select News Date"
                 showTodayButton
+                style={{width: '100%'}}
                 
                 />
             </Grid>

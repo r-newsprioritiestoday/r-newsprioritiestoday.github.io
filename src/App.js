@@ -8,6 +8,8 @@ import { DateTimePicker } from "material-ui-pickers";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
 
 
 // pick utils
@@ -51,10 +53,45 @@ class App extends Component {
     const date_before = moment(selectedDate).subtract(1, 'hour')
     console.log(date, date_before)
     return data.filter((d) => {
-      if (d.datetime.isBetween(date_before, date)){
-        console.log('hi')
-      }
       return d.datetime.isBetween(date_before, date)
+    })
+  }
+
+  fetchTranslations(selected_data){
+    for(let i = 0; i < selected_data.length; i++){
+      
+    }
+  }
+
+  // THIS IS WRONG!!!! The data set contains an array of articles. You must access this to replace the translations
+
+  // translate the news that are currently shown
+  translateCurrentNews(selectedDate){
+    let { data } = this.state
+    const selected_data = this.getDataSet(selectedDate, data);
+    
+    const translated_data = this.fetchTranslations(selected_data)
+
+    // replace all texts with the translated entries
+    // first go through all data
+    translated_data.forEach(element => {
+      // find the index the data is at in the original array
+      const index = data.findIndex(item => item.link === element.link)
+
+      // create a new item with all original values and replace the values that have been translated
+      let item = {
+        ...data[index],
+        ["headline"]: element.headline,
+        ["text"]: element.text
+      }
+
+      // put the new item at the same place the original item was at
+      data[index] = item
+    });
+
+    // once you are finished, set the state with the new array
+    this.setState({
+      data
     })
   }
 
@@ -67,7 +104,7 @@ class App extends Component {
     return (
       <div>
         <MuiPickersUtilsProvider utils={MomentUtils}>
-          <Typography variant="h2" gutterBottom align="center">
+          <Typography variant="h2" gutterBottom align="center" style={{paddingTop: '1%'}}>
             NEWS PRIORITIES TODAY
           </Typography>
           <Grid container
@@ -83,7 +120,9 @@ class App extends Component {
                 style={{width: '100%'}}
                 
                 />
+                
             </Grid>
+            {/**<Button onClick={this.translateCurrentNews.bind(this)}>Translate Current News</Button>  */}
             <hr/>
             {data_set.map(data => {
               return (
@@ -108,7 +147,8 @@ class App extends Component {
                 </Grid>
               )
             })}
-          </Grid>          
+          </Grid>    
+          (c)2019, visit {<Link href={"https://www.reddit.com/r/newsprioritiestoday/"}>/r/newsprioritiestoday</Link>} for more information     
         </MuiPickersUtilsProvider>
 
       </div>

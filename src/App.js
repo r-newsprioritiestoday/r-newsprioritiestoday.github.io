@@ -142,6 +142,9 @@ class App extends Component {
                         )
                       })}
                     </ul>
+                    <Typography variant="caption" gutterBottom>
+                      Source: <Link href={data.source}>{data.source}</Link> @ {moment(data.datetime).format()}
+                    </Typography>
 
                   </Paper>
                 </Grid>
